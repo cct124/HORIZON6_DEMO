@@ -105,7 +105,7 @@ export class World {
     }
     for (let k = 0; k < count; k++) {
       const a = k * 2, b = a + 1, c = a + 2, d = a + 3;
-      idx.push(a, b, c, b, d, c);
+      idx.push(a, c, b, b, c, d);
     }
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
