@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地平线 6 | HORIZON 6</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./lib/three.module.js",
+    "three/addons/": "./lib/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<!-- 加载界面 -->
+<div id="loading-screen">
+  <div class="fh-logo">
+    <div class="fh-logo-mark">Ⅵ</div>
+    <div class="fh-logo-text">HORIZON <span>6</span></div>
+    <div class="fh-logo-sub">地 平 线 嘉 年 华</div>
+  </div>
+  <div class="loading-bar-wrap"><div id="loading-bar"></div></div>
+  <div id="loading-text">正在加载资源... 0%</div>
+</div>
+
+<!-- 主菜单 -->
+<div id="menu-screen" class="hidden">
+  <div class="menu-bg-stripe s1"></div>
+  <div class="menu-bg-stripe s2"></div>
+  <div class="menu-content">
+    <div class="fh-logo small">
+      <div class="fh-logo-mark">Ⅵ</div>
+      <div class="fh-logo-text">HORIZON <span>6</span></div>
+      <div class="fh-logo-sub">地 平 线 嘉 年 华 · 墨西哥高原</div>
+    </div>
+    <div class="menu-buttons">
+      <button class="fh-btn primary" id="btn-race">⚑ 冲刺赛 · HORIZON SPRINT</button>
+      <button class="fh-btn" id="btn-circuit">◎ 环形赛 · CIRCUIT RACE (3圈)</button>
+      <button class="fh-btn" id="btn-free">∞ 自由漫游 · FREE ROAM</button>
+    </div>
+    <div class="menu-controls">
+      <b>操作说明</b><br>
+      W/↑ 油门 &nbsp; S/↓ 刹车/倒车 &nbsp; A D/←→ 转向<br>
+      空格 手刹漂移 &nbsp; Shift 氮气加速 &nbsp; C 切换视角<br>
+      R 重置车辆 &nbsp; M 音乐开关 &nbsp; Esc 返回菜单
+    </div>
+  </div>
+</div>
+
+<!-- 游戏HUD -->
+<div id="hud" class="hidden">
+  <!-- 比赛信息 (左上) -->
+  <div id="race-info" class="hidden">
+    <div class="race-pos"><span id="race-position">1</span><small>/<span id="race-total">4</span></small></div>
+    <div class="race-detail">
+      <div id="race-lap">第 1/3 圈</div>
+      <div id="race-time">00:00.00</div>
+    </div>
+  </div>
+  <!-- 事件横幅 -->
+  <div id="event-banner" class="hidden"></div>
+  <!-- 倒计时 -->
+  <div id="countdown" class="hidden">3</div>
+  <!-- 小地图 (左下) -->
+  <div id="minimap-wrap"><canvas id="minimap" width="220" height="220"></canvas></div>
+  <!-- 速度表 (右下) -->
+  <canvas id="speedo" width="300" height="300"></canvas>
+  <!-- 技巧得分 -->
+  <div id="skill-popup" class="hidden"></div>
+  <!-- 提示 -->
+  <div id="hint">Shift 氮气 · 空格 漂移 · C 视角 · Esc 菜单</div>
+</div>
+
+<!-- 结算界面 -->
+<div id="result-screen" class="hidden">
+  <div class="result-box">
+    <div id="result-title">比赛结束</div>
+    <div id="result-pos"></div>
+    <div id="result-time"></div>
+    <div id="result-rows"></div>
+    <button class="fh-btn primary" id="btn-again">再来一次</button>
+    <button class="fh-btn" id="btn-menu">返回菜单</button>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

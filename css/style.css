@@ -1,0 +1,97 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a14; font-family: "Segoe UI", "Microsoft YaHei", sans-serif; }
+#game { position: fixed; inset: 0; display: block; }
+.hidden { display: none !important; }
+
+/* ---------- LOGO ---------- */
+.fh-logo { text-align: center; user-select: none; }
+.fh-logo-mark {
+  display: inline-block; font-size: 64px; font-weight: 900; color: #fff;
+  background: linear-gradient(135deg, #b800ff, #ff2d78, #ff9a2d);
+  width: 110px; height: 110px; line-height: 110px; border-radius: 24px;
+  transform: rotate(-8deg); box-shadow: 0 0 60px rgba(255,45,120,.55);
+  font-style: italic;
+}
+.fh-logo-text { margin-top: 18px; font-size: 54px; font-weight: 800; letter-spacing: 10px; color: #fff; font-style: italic; }
+.fh-logo-text span { color: #ff2d78; }
+.fh-logo-sub { margin-top: 6px; font-size: 16px; letter-spacing: 14px; color: #9aa; }
+.fh-logo.small .fh-logo-mark { font-size: 42px; width: 76px; height: 76px; line-height: 76px; border-radius: 18px; }
+.fh-logo.small .fh-logo-text { font-size: 38px; }
+.fh-logo.small .fh-logo-sub { font-size: 12px; letter-spacing: 9px; }
+
+/* ---------- 加载 ---------- */
+#loading-screen {
+  position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 34px;
+  background: radial-gradient(ellipse at 30% 20%, #251038 0%, #0a0a14 60%);
+}
+.loading-bar-wrap { width: 420px; max-width: 80vw; height: 6px; background: rgba(255,255,255,.12); border-radius: 3px; overflow: hidden; }
+#loading-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #b800ff, #ff2d78); transition: width .2s; }
+#loading-text { color: #8892a6; font-size: 14px; letter-spacing: 2px; }
+
+/* ---------- 菜单 ---------- */
+#menu-screen { position: fixed; inset: 0; z-index: 90; overflow: hidden;
+  background: linear-gradient(160deg, rgba(12,8,28,.86) 0%, rgba(30,10,40,.72) 100%); }
+.menu-bg-stripe { position: absolute; width: 200%; height: 130px; opacity: .16; transform: rotate(-18deg); }
+.menu-bg-stripe.s1 { top: 16%; left: -30%; background: linear-gradient(90deg, #b800ff, #ff2d78); }
+.menu-bg-stripe.s2 { bottom: 10%; left: -40%; background: linear-gradient(90deg, #ff9a2d, #ff2d78); }
+.menu-content { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; }
+.menu-buttons { display: flex; flex-direction: column; gap: 14px; width: 460px; max-width: 86vw; }
+.fh-btn {
+  padding: 15px 26px; font-size: 17px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
+  color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22);
+  border-radius: 4px; transition: all .15s; text-align: left; font-family: inherit;
+  transform: skewX(-6deg);
+}
+.fh-btn:hover { background: rgba(255,255,255,.2); transform: skewX(-6deg) translateX(8px); }
+.fh-btn.primary { background: linear-gradient(90deg, #b800ff, #ff2d78); border: none; box-shadow: 0 4px 26px rgba(255,45,120,.4); }
+.fh-btn.primary:hover { filter: brightness(1.18); }
+.menu-controls { color: #8892a6; font-size: 13px; line-height: 1.9; text-align: center; letter-spacing: 1px; }
+.menu-controls b { color: #cdd6e4; letter-spacing: 4px; }
+
+/* ---------- HUD ---------- */
+#hud { position: fixed; inset: 0; z-index: 50; pointer-events: none; }
+#speedo { position: absolute; right: 12px; bottom: 8px; }
+#minimap-wrap { position: absolute; left: 18px; bottom: 18px; }
+#minimap { border-radius: 50%; background: rgba(8,10,20,.55); border: 2px solid rgba(255,255,255,.25); box-shadow: 0 4px 24px rgba(0,0,0,.5); }
+#hint { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.4); font-size: 12px; letter-spacing: 1px; }
+
+#race-info { position: absolute; top: 22px; left: 22px; display: flex; align-items: center; gap: 14px;
+  background: rgba(8,10,20,.62); padding: 10px 20px; border-left: 4px solid #ff2d78; border-radius: 4px; }
+.race-pos { font-size: 44px; font-weight: 900; color: #fff; font-style: italic; }
+.race-pos small { font-size: 20px; color: #8892a6; }
+.race-detail { color: #cdd6e4; font-size: 15px; line-height: 1.5; }
+#race-time { font-variant-numeric: tabular-nums; color: #ffd166; }
+
+#countdown {
+  position: absolute; top: 34%; left: 50%; transform: translate(-50%,-50%);
+  font-size: 160px; font-weight: 900; font-style: italic; color: #fff;
+  text-shadow: 0 0 80px #ff2d78, 0 6px 20px rgba(0,0,0,.6);
+  animation: cd-pop .9s ease-out infinite;
+}
+@keyframes cd-pop { 0% { transform: translate(-50%,-50%) scale(1.6); opacity: 0; } 25% { opacity: 1; } 100% { transform: translate(-50%,-50%) scale(.92); opacity: .9; } }
+
+#event-banner {
+  position: absolute; top: 20%; left: 50%; transform: translateX(-50%) skewX(-6deg);
+  background: linear-gradient(90deg, #b800ff, #ff2d78); color: #fff;
+  font-size: 26px; font-weight: 800; letter-spacing: 3px; padding: 12px 44px; border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(255,45,120,.5);
+}
+#skill-popup {
+  position: absolute; right: 60px; top: 33%; color: #ffd166; font-size: 24px; font-weight: 800;
+  font-style: italic; text-shadow: 0 2px 12px rgba(0,0,0,.7); letter-spacing: 2px;
+  animation: skill-fly 1.2s ease-out forwards;
+}
+@keyframes skill-fly { 0% { transform: translateY(18px); opacity: 0; } 15% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(-26px); opacity: 0; } }
+
+/* ---------- 结算 ---------- */
+#result-screen { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center;
+  background: rgba(6,6,16,.78); backdrop-filter: blur(6px); }
+.result-box { text-align: center; display: flex; flex-direction: column; gap: 16px; min-width: 420px;
+  background: rgba(16,14,30,.9); padding: 44px 56px; border-radius: 8px; border-top: 4px solid #ff2d78; }
+#result-title { font-size: 40px; font-weight: 900; color: #fff; font-style: italic; letter-spacing: 4px; }
+#result-pos { font-size: 72px; font-weight: 900; color: #ffd166; font-style: italic; }
+#result-time { color: #8892a6; font-size: 18px; }
+#result-rows { color: #cdd6e4; font-size: 15px; line-height: 2; font-variant-numeric: tabular-nums; }
+#result-rows .me { color: #ffd166; font-weight: 700; }
+#result-screen .fh-btn { text-align: center; pointer-events: auto; }
