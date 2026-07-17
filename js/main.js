@@ -65,7 +65,6 @@ let raceTime = 0;
 let countdownT = 0;
 let playerLap = -1;
 let nextCp = 10;
-let prevCpDs = null;
 let playerFinished = false;
 let finishDelay = 0;
 let wrongWayT = 0;
@@ -116,7 +115,7 @@ async function boot() {
     get racers() { return racers; },
     get traffic() { return traffic; },
     get audio() { return audio; },
-    get raceInfo() { return { raceTime, playerLap, nextCp, raceLaps, prevCpDs, roadDist: player.roadDist, trackS: player.trackS }; },
+    get raceInfo() { return { raceTime, playerLap, nextCp, raceLaps, roadDist: player.roadDist, trackS: player.trackS }; },
     get renderInfo() { return renderer.info.render; }
   };
   showMenu();
@@ -150,7 +149,6 @@ function startRace(mode) {
   raceTime = 0;
   playerLap = -1;
   nextCp = 10;
-  prevCpDs = null;
   playerFinished = false;
   finishDelay = 0;
   driftPoints = 0;
@@ -289,27 +287,27 @@ function wrapDs(ds) {
 function updateRaceLogic(dt) {
   raceTime += dt;
 
-  const cpS = (nextCp % CP_COUNT) * track.length / CP_COUNT;
-  const ds = wrapDs(player.trackS - cpS);
-  if (prevCpDs !== null && prevCpDs < 0 && ds >= 0 && ds < 45 &&
-      player.roadDist < ROAD_HALF + 10 && player.vf > 0) {
-    if (nextCp === CP_COUNT) {
-      playerLap++;
-      if (playerLap >= raceLaps) {
-        playerFinished = true;
-        finishDelay = 1.6;
-        hud.showBanner('🏁 完赛!', 1600);
+  if (!playerFinished) {
+    const spacing = track.length / CP_COUNT;
+    const cpS = (nextCp % CP_COUNT) * spacing;
+    const ds = wrapDs(player.trackS - cpS);
+    if (ds >= 0 && ds < spacing &&
+        player.roadDist < ROAD_HALF + 10 && player.vf > 0) {
+      if (nextCp === CP_COUNT) {
+        playerLap++;
+        if (playerLap >= raceLaps) {
+          playerFinished = true;
+          finishDelay = 1.6;
+          hud.showBanner('🏁 完赛!', 1600);
+        } else {
+          nextCp = 1;
+          if (playerLap > 0) hud.showSkill(`第 ${playerLap + 1} 圈!`);
+        }
       } else {
-        nextCp = 1;
-        if (playerLap > 0) hud.showSkill(`第 ${playerLap + 1} 圈!`);
+        nextCp++;
+        hud.showSkill('✓ 检查点');
       }
-    } else {
-      nextCp++;
-      hud.showSkill('✓ 检查点');
     }
-    prevCpDs = null;
-  } else {
-    prevCpDs = ds;
   }
   world.setGateHighlight(nextCp >= 1 && nextCp <= 9 ? nextCp - 1 : -1);
 
